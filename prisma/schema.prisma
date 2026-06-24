@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Carrera {
+  id        Int       @id @default(autoincrement())
+  nombre    String    @unique
+  materias  Materia[]
+  matriculas Matricula[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("carreras")
+}
+
+model Materia {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  carreraId Int
+  carrera   Carrera  @relation(fields: [carreraId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  asignacionesLaboratorio AsignacionLaboratorio[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([nombre, carreraId])
+  @@map("materias")
+}
+
+model Ciclo {
+  id         Int         @id @default(autoincrement())
+  nombre     String      @unique
+  activo     Boolean     @default(true)
+  matriculas Matricula[]
+  asignacionesLaboratorio AsignacionLaboratorio[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@map("ciclos")
+}
+
+model Estudiante {
+  id         Int         @id @default(autoincrement())
+  nombre     String
+  email      String      @unique
+  matriculas Matricula[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@map("estudiantes")
+}
+
+model Matricula {
+  id           Int        @id @default(autoincrement())
+  activa       Boolean    @default(true)
+  estudianteId Int
+  carreraId    Int
+  cicloId      Int
+  estudiante   Estudiante @relation(fields: [estudianteId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  carrera      Carrera    @relation(fields: [carreraId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  ciclo        Ciclo      @relation(fields: [cicloId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  asignacionesLaboratorio AsignacionLaboratorio[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([estudianteId, carreraId, cicloId])
+  @@map("matriculas")
+}
+
+model Laboratorio {
+  id        Int                     @id @default(autoincrement())
+  nombre    String                  @unique
+  capacidad Int
+  asignaciones AsignacionLaboratorio[]
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+
+  @@map("laboratorios")
+}
+
+model AsignacionLaboratorio {
+  id            Int         @id @default(autoincrement())
+  laboratorioId Int
+  matriculaId   Int
+  materiaId     Int
+  cicloId       Int
+  laboratorio   Laboratorio @relation(fields: [laboratorioId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  matricula     Matricula   @relation(fields: [matriculaId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  materia       Materia     @relation(fields: [materiaId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  ciclo         Ciclo       @relation(fields: [cicloId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([matriculaId, materiaId, cicloId])
+  @@map("asignaciones_laboratorio")
+}
