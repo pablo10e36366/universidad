@@ -11,12 +11,12 @@ export class CreateMatriculaDto {
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  carreraId: number;
+  carreraId!: number;
 
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  cicloId: number;
+  cicloId!: number;
 
   @IsArray()
   @ArrayMinSize(1)
@@ -24,5 +24,5 @@ export class CreateMatriculaDto {
   @Type(() => Number)
   @IsInt({ each: true })
   @IsPositive({ each: true })
-  estudianteIds: number[];
+  estudianteIds!: number[];
 }

@@ -5,20 +5,20 @@ export class CreateAsignacionLaboratorioDto {
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  laboratorioId: number;
+  laboratorioId!: number;
 
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  matriculaId: number;
+  matriculaId!: number;
 
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  materiaId: number;
+  materiaId!: number;
 
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  cicloId: number;
+  cicloId!: number;
 }

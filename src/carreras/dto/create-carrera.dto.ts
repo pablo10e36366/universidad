@@ -10,17 +10,17 @@ import { Type } from 'class-transformer';
 class CreateCarreraMateriaDto {
   @IsString()
   @IsNotEmpty()
-  nombre: string;
+  nombre!: string;
 }
 
 export class CreateCarreraDto {
   @IsString()
   @IsNotEmpty()
-  nombre: string;
+  nombre!: string;
 
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => CreateCarreraMateriaDto)
-  materias: CreateCarreraMateriaDto[];
+  materias!: CreateCarreraMateriaDto[];
 }

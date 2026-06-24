@@ -4,10 +4,10 @@ import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 export class CreateLaboratorioDto {
   @IsString()
   @IsNotEmpty()
-  nombre: string;
+  nombre!: string;
 
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  capacidad: number;
+  capacidad!: number;
 }

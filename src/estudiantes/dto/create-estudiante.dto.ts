@@ -3,8 +3,8 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 export class CreateEstudianteDto {
   @IsString()
   @IsNotEmpty()
-  nombre: string;
+  nombre!: string;
 
   @IsEmail()
-  email: string;
+  email!: string;
 }
